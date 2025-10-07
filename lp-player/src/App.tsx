@@ -1,34 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Pale from "./sound/Pale.mp3"
+import Rest from "./sound/Rest.mp3"
+import Numb from "./sound/Numb.mp3"
+import End from "./sound/End.mp3"
+import Faint from "./sound/Faint.mp3"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const tracks = [
+    { id:1, title: "LP track1", url: Pale },
+    { id:2, title: "LP track2", url: Rest },
+    { id:3, title: "LP track3", url: Numb },
+    { id:4, title: "LP track4", url: End },
+    { id:5, title: "LP track5", url: Faint },
+
+  ]
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <h1>LP Player</h1>
+      <ui>
+        {tracks.map((track) => {
+          return <li key ={track.id}>
+            <div>
+              {track.title}
+            </div>
+            <audio src={track.url} controls></audio>
+          </li>
+        })}
+      </ui>
+    </ >
   )
 }
 
