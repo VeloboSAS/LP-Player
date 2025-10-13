@@ -3,6 +3,7 @@ import Rest from "./sound/Rest.mp3"
 import Numb from "./sound/Numb.mp3"
 import End from "./sound/End.mp3"
 import Faint from "./sound/Faint.mp3"
+import { useState } from "react"
 
 
 // const tracks = null
@@ -16,10 +17,12 @@ const tracks = [
 
 ]
 
-const selectedTrackId = 6
-
 
 export function App() {
+
+  const [selectedTrackId, setSelectedTrackId] = useState(1)
+
+
 
   if (tracks === null) {
     return <> <div>
@@ -40,12 +43,17 @@ export function App() {
   return (
     <>
       <h1>LP Player</h1>
+      <button onClick={() => {
+        setSelectedTrackId(null)
+      }}>Reset selection</button>
       <ul>
         {tracks.map((track) => {
           return <li key={track.id} style={{
             border: track.id === selectedTrackId ? '1px solid orange' : 'none'
           }}>
-            <div>
+            <div onClick={() => {
+              setSelectedTrackId(track.id)
+            }}>
               {track.title}
             </div>
             <audio src={track.url} controls></audio>
