@@ -1,27 +1,25 @@
-import Pale from "./sound/Pale.mp3"
-import Rest from "./sound/Rest.mp3"
-import Numb from "./sound/Numb.mp3"
-import End from "./sound/End.mp3"
-import Faint from "./sound/Faint.mp3"
-import { useState } from "react"
 
-
-// const tracks = null
-const tracks = [
-  { id: 1, title: "LP track1", url: Pale },
-  { id: 2, title: "LP track2", url: Rest },
-  { id: 3, title: "LP track3", url: Numb, isSelected: true },
-  { id: 4, title: "LP track4", url: End },
-  { id: 5, title: "LP track5", url: Faint },
-  { id: 6, title: "LP track6", url: " https://musicfun.it-incubator.app/api/samurai-way-soundtrack-instrumental.mp3" },
-
-]
-
+import { useEffect, useState } from "react"
 
 export function App() {
 
-  const [selectedTrackId, setSelectedTrackId] = useState(1)
+  const [selectedTrackId, setSelectedTrackId] = useState(null)
+  const [tracks, setTracks] = useState(null
+  )
 
+
+  useEffect(() => {
+    console.log("effect")
+    fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks", {
+      headers: {
+        "api-key": "",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        setTracks(json.data)
+      })
+  }, [])
 
 
   if (tracks === null) {
@@ -42,8 +40,8 @@ export function App() {
 
   return (
     <>
-      <h1>LP Player</h1>
-      <button onClick={() => {
+      <h1 style={{marginLeft: 40}}>LP Player</h1>
+      <button style={{marginLeft: 40, backgroundColor: 'blue'}} onClick={() => {
         setSelectedTrackId(null)
       }}>Reset selection</button>
       <ul>
@@ -54,9 +52,9 @@ export function App() {
             <div onClick={() => {
               setSelectedTrackId(track.id)
             }}>
-              {track.title}
+              {track.attributes.title}
             </div>
-            <audio src={track.url} controls></audio>
+            <audio src={track.attributes.attachments[0].url} controls></audio>
           </li>
         })}
       </ul>
