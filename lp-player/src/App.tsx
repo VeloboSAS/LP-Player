@@ -13,7 +13,7 @@ export function App() {
     console.log("effect")
     fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks", {
       headers: {
-        "api-key": "6055cc46-51d8-48ee-bcf2-77280ab51704",
+        "api-key": "",
       },
     })
       .then((res) => res.json())
@@ -44,29 +44,30 @@ export function App() {
     <>
       <h1 style={{ marginLeft: 40 }}>LP Player</h1>
       <button style={{ marginLeft: 40, backgroundColor: 'blue' }} onClick={() => {
-        setSelectedTrackId(null),
-
+        setSelectedTrackId(null)
         setSelectedTrack(null)
-      }}>Reset selection</button>
+      }}>Reset selection
+      </button>
+
       <div style={{ display: 'flex', gap: 30 }}>
         <ul>
           {tracks.map((track) => {
             return <li key={track.id} style={{
-              border: track.id === selectedTrack?.id ? '1px solid orange' : 'none'
+              border: track.id === selectedTrackId ? '1px solid orange' : 'none'
             }}>
               <div onClick={() => {
                 setSelectedTrackId(track.id)
                 fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks/" + track.id,
                   {
                     headers: {
-                      "api-key": "6055cc46-51d8-48ee-bcf2-77280ab51704",
+                      "api-key": "",
                     },
                   })
                   .then((res) => res.json())
                   .then((json) => {
                     setSelectedTrack(json.data)
                   })
-                setSelectedTrack(track)
+                // setSelectedTrack(track)
               }}>
                 {track.attributes.title}
               </div>
@@ -76,7 +77,7 @@ export function App() {
         </ul>
         <div>
           <h2>Details</h2>
-          {selectedTrack === null ? 'Track is not selected' :
+          {selectedTrack === null ? ('Track is not selected') :(
             <div>
               <h3>{selectedTrack.attributes.title}</h3>
               <h4>Lyrics</h4>
@@ -84,7 +85,7 @@ export function App() {
                 {selectedTrack.attributes.lyrics ?? 'No lyrics'}
               </p>
             </div>
-          }
+         ) }
         </div>
 
       </div>
