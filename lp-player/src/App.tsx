@@ -38,8 +38,7 @@ export function App() {
     </div>
     </>
   }
-
-
+  
   return (
     <>
       <h1 style={{ marginLeft: 40 }}>LP Player</h1>
@@ -52,9 +51,10 @@ export function App() {
       <div style={{ display: 'flex', gap: 30 }}>
         <ul>
           {tracks.map((track) => {
-            return <li key={track.id} style={{
-              border: track.id === selectedTrackId ? '1px solid orange' : 'none'
-            }}>
+            return <li key={track.id}
+              style={{
+                border: track.id === selectedTrackId ? '1px solid orange' : ''
+              }}>
               <div onClick={() => {
                 setSelectedTrackId(track.id)
                 fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks/" + track.id,
@@ -67,7 +67,7 @@ export function App() {
                   .then((json) => {
                     setSelectedTrack(json.data)
                   })
-                // setSelectedTrack(track)
+
               }}>
                 {track.attributes.title}
               </div>
@@ -77,7 +77,10 @@ export function App() {
         </ul>
         <div>
           <h2>Details</h2>
-          {selectedTrack === null ? ('Track is not selected') :(
+          {!selectedTrack && !selectedTrackId && 'Track is not selected'}
+          {!selectedTrack && selectedTrackId && "Loading..."}
+          {selectedTrack && selectedTrackId && selectedTrack.id !== selectedTrackId && "Loading..."}
+          {selectedTrack && (
             <div>
               <h3>{selectedTrack.attributes.title}</h3>
               <h4>Lyrics</h4>
@@ -85,13 +88,9 @@ export function App() {
                 {selectedTrack.attributes.lyrics ?? 'No lyrics'}
               </p>
             </div>
-         ) }
+          )}
         </div>
-
       </div>
-
-
-
     </ >
   )
 }
