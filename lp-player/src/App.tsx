@@ -22,6 +22,23 @@ export function App() {
       })
   }, [])
 
+  useEffect(() => {
+    if (!selectedTrackId) {
+      return
+    }
+    fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks/" + selectedTrackId,
+      {
+        headers: {
+          "api-key": "",
+        },
+      })
+      .then((res) => res.json())
+      .then((json) => {
+        setSelectedTrack(json.data)
+      })
+
+  }, [selectedTrackId])
+
 
   if (tracks === null) {
     return <> <div>
@@ -38,7 +55,7 @@ export function App() {
     </div>
     </>
   }
-  
+
   return (
     <>
       <h1 style={{ marginLeft: 40 }}>LP Player</h1>
@@ -57,17 +74,6 @@ export function App() {
               }}>
               <div onClick={() => {
                 setSelectedTrackId(track.id)
-                fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks/" + track.id,
-                  {
-                    headers: {
-                      "api-key": "",
-                    },
-                  })
-                  .then((res) => res.json())
-                  .then((json) => {
-                    setSelectedTrack(json.data)
-                  })
-
               }}>
                 {track.attributes.title}
               </div>
